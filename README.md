@@ -2,6 +2,8 @@
 
 A small, stateless service for [OAuth Client ID Metadata Documents](https://datatracker.ietf.org/doc/draft-ietf-oauth-client-id-metadata-document/). Paste or edit a JSON object on the root page. The browser encodes it into a URL, and the service returns that metadata with a `client_id` set to the exact document URL.
 
+**Try the live service: [https://dynamic-cimd.resoauth.cloud/](https://dynamic-cimd.resoauth.cloud/).**
+
 ## Run locally
 
 Requires Node.js 20 or newer.
@@ -35,10 +37,10 @@ Pull requests run tests and Wrangler dry runs in GitHub Actions. This workflow d
 
 ## URL format
 
-`/cimd/<base64url>` contains an unpadded base64url encoding of a UTF-8 JSON object. For example, `{}` encodes to `e30`, so a request to `https://your-domain.example/cimd/e30` returns:
+`/cimd/<base64url>` contains an unpadded base64url encoding of a UTF-8 JSON object. For example, `{}` encodes to `e30`, so a request to `https://dynamic-cimd.resoauth.cloud/cimd/e30` returns:
 
 ```json
-{"client_id":"https://your-domain.example/cimd/e30"}
+{"client_id":"https://dynamic-cimd.resoauth.cloud/cimd/e30"}
 ```
 
 The document endpoint returns HTTP 200 and `application/json` for valid requests. It rejects malformed input, non-object JSON, query strings, client secrets, private JWK material and encoded paths longer than 8,192 characters. Supported `token_endpoint_auth_method` values are `none`, `private_key_jwt`, `tls_client_auth` and `self_signed_tls_client_auth`. Other metadata fields pass through unchanged. A supplied `client_id` is replaced by the document URL.
