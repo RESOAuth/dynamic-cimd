@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Turn OAuth client metadata into a Client ID Metadata Document URL.">
+    <title>Dynamic CIMD</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <main>
+        <section class="hero" aria-labelledby="page-title">
+          <h1 id="page-title">Create a client ID <span>from JSON.</span></h1>
+          <p>Edit your OAuth client metadata below. Its generated URL serves the metadata as a Client ID Metadata Document, with <code>client_id</code> set to that exact URL.</p>
+        </section>
+
+        <div class="workspace">
+          <section class="panel editor-panel" aria-labelledby="editor-title">
+            <div class="panel-heading">
+              <div>
+                <p class="step">01 / Input</p>
+                <h2 id="editor-title">Your metadata</h2>
+              </div>
+              <span class="format-tag">JSON</span>
+            </div>
+            <form id="generator-form" novalidate>
+              <label class="field-label" for="metadata-input">Edit the JSON directly</label>
+              <textarea id="metadata-input" spellcheck="false" autocapitalize="off" autocomplete="off" required>{
+  "client_name": "Example application",
+  "client_uri": "https://client.example/",
+  "logo_uri": "https://client.example/logo.svg",
+  "redirect_uris": [
+    "https://client.example/oauth/callback"
+  ],
+  "grant_types": [
+    "authorization_code",
+    "refresh_token"
+  ],
+  "response_types": ["code"],
+  "scope": "openid profile email",
+  "contacts": ["security@client.example"],
+  "tos_uri": "https://client.example/terms",
+  "policy_uri": "https://client.example/privacy",
+  "token_endpoint_auth_method": "none",
+  "software_id": "example-client",
+  "software_version": "1.0.0"
+}</textarea>
+              <p class="field-help">These values are examples. Replace the URLs and scopes with your own, and add other supported metadata fields directly. For key-based authentication, add a public <code>jwks_uri</code> or <code>jwks</code>. The generated URL replaces any supplied <code>client_id</code>.</p>
+              <div class="form-footer">
+                <p class="error-message" id="error-message" role="alert" hidden></p>
+                <button class="primary-button" type="submit">Generate URL <span aria-hidden="true">↗</span></button>
+              </div>
+            </form>
+          </section>
+
+          <section class="panel result-panel" aria-labelledby="result-title">
+            <div class="panel-heading">
+              <div>
+                <p class="step">02 / Output</p>
+                <h2 id="result-title">Your document URL</h2>
+              </div>
+              <span class="ready-indicator" id="ready-indicator">Ready to generate</span>
+            </div>
+
+            <div class="empty-state" id="empty-state">
+              <div class="empty-glyph" aria-hidden="true">↗</div>
+              <p>Your link will appear here.</p>
+              <span>Generate a URL to see the document and copy its client ID.</span>
+            </div>
+
+            <div class="result-content" id="result-content" hidden>
+              <label class="field-label" for="result-url">Client ID and document URL</label>
+              <div class="url-row">
+                <input id="result-url" type="text" readonly>
+                <button class="secondary-button" id="copy-button" type="button">Copy</button>
+              </div>
+              <a class="open-link" id="open-link" target="_blank" rel="noopener noreferrer">Open JSON document <span aria-hidden="true">↗</span></a>
+              <div class="preview-heading">
+                <span>Response preview</span>
+                <span class="format-tag">200 · application/json</span>
+              </div>
+              <pre id="response-preview"></pre>
+              <p class="local-note" id="local-note" hidden>This local HTTP URL is for testing. OAuth client ID URLs must use HTTPS.</p>
+            </div>
+            <p class="copy-status" id="copy-status" role="status" aria-live="polite"></p>
+          </section>
+        </div>
+
+        <aside class="notice">
+          <span class="notice-icon" aria-hidden="true">i</span>
+          <p><strong>Public by design.</strong> The JSON is encoded in the URL and visible to anyone who has it. Never include secrets or private keys. Anyone can create a document on this domain; its address is not proof of ownership or endorsement.</p>
+        </aside>
+      </main>
+
+      <footer class="site-footer">
+        <nav aria-label="Footer links">
+          <a href="https://resoauth.dev/">RESOAuth®</a>
+          <a href="https://github.com/RESOAuth/dynamic-cimd">GitHub repository</a>
+          <a href="https://datatracker.ietf.org/doc/html/draft-ietf-oauth-client-id-metadata-document">CIMD specification</a>
+        </nav>
+        <button class="footer-theme-toggle" id="theme-toggle" type="button" aria-pressed="false">
+          <span id="theme-label">Dark mode</span>
+        </button>
+      </footer>
+    </div>
+  </body>
+</html>

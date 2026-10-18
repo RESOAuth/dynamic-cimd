@@ -1,0 +1,20 @@
+{
+  "name": "dynamic-cimd",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "wrangler dev",
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler preview",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "wrangler": "4.151.1"
+  }
+}
